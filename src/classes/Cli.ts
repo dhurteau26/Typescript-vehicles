@@ -3,7 +3,7 @@ import inquirer from "inquirer";
 import Truck from "./Truck.js";
 import Car from "./Car.js";
 import Motorbike from "./Motorbike.js";
-import Wheel from "./Wheel.js";
+
 
 // define the Cli class
 class Cli {
@@ -185,7 +185,8 @@ class Cli {
           parseInt(answers.year),
           parseInt(answers.weight),
           parseInt(answers.topSpeed),
-          []
+          [],
+          parseInt(answers.towingCapacity)
         );
         // TODO: Use the answers object to pass the required properties to the Truck constructor
         // TODO: push the truck to the vehicles array
@@ -277,7 +278,8 @@ class Cli {
 
   // method to find a vehicle to tow
   // TODO: add a parameter to accept a truck object
-  findVehicleToTow(): void {
+
+  findVehicleToTow(towingVehicle: Truck): void {
     inquirer
       .prompt([
         {
@@ -293,9 +295,19 @@ class Cli {
         },
       ])
       .then((answers) => {
+        const vehicleToTow = answers.vehicleToTow;
         // TODO: check if the selected vehicle is the truck
-        // TODO: if it is, log that the truck cannot tow itself then perform actions on the truck to allow the user to select another action
-        // TODO: if it is not, tow the selected vehicle then perform actions on the truck to allow the user to select another action
+        if (vehicleToTow === towingVehicle) {
+          console.log("A truck cannot tow itself.");
+          this.performActions();
+        } else if (towingVehicle instanceof Truck) {
+          // find the selected vehicle and tow it
+          towingVehicle.tow(vehicleToTow);
+          this.performActions();
+          } else {
+            console.log("Selected vehicle cannot tow.")
+          this.performActions();
+        }
       });
   }
 
@@ -317,6 +329,8 @@ class Cli {
             'Turn right',
             'Turn left',
             'Reverse',
+            'Wheelie',
+            'Tow',
             'Select or create another vehicle',
             'Exit',
           ],
@@ -378,6 +392,22 @@ class Cli {
           for (let i = 0; i < this.vehicles.length; i++) {
             if (this.vehicles[i].vin === this.selectedVehicleVin) {
               this.vehicles[i].reverse();
+            }
+          }
+        } else if (answers.action === 'Wheelie') {
+          // find the selected vehicle and perform a wheelie if it is a motorbike
+          for (let i = 0; i < this.vehicles.length; i++) {
+            if (this.vehicles[i].vin === this.selectedVehicleVin && this.vehicles[i] instanceof Motorbike) {
+              (this.vehicles[i] as Motorbike).wheelie();
+            }
+          }
+        
+        }else if (answers.action === 'Tow') {
+          // find the selected vehicle and perform the tow action only if it is a truck
+          for (let i = 0; i < this.vehicles.length; i++) {
+            if (this.vehicles[i].vin === this.selectedVehicleVin && this.vehicles[i] instanceof Truck) {
+              this.findVehicleToTow(this.vehicles[i] as Truck);
+              return;
             }
           }
         }
