@@ -311,6 +311,8 @@ class Cli {
       });
   }
 
+
+
   // method to perform actions on a vehicle
   performActions(): void {
     inquirer
@@ -408,6 +410,7 @@ class Cli {
             if (this.vehicles[i].vin === this.selectedVehicleVin && this.vehicles[i] instanceof Truck) {
               this.findVehicleToTow(this.vehicles[i] as Truck);
               return;
+              
             }
           }
         }

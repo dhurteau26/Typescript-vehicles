@@ -3,10 +3,12 @@ import Vehicle from './Vehicle.js';
 import Wheel from './Wheel.js';
 
 // TODO: The Motorbike class should extend the Vehicle class
+
 class Motorbike extends Vehicle {
-  wheelie() {
-    throw new Error("Method not implemented.");
+  wheelie(): void {
+    console.log("Performing a wheelie!");
   }
+
   vin: string;
   color: string;
   make: string;
