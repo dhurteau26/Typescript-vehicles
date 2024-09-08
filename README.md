@@ -29,6 +29,10 @@
   ### You must run this in an integrated terminal and enter npm run start.
   ### 
 
+https://github.com/user-attachments/assets/99a79092-830c-4ce0-b886-3f1c6a8302e4
+
+
+
   ## Questions:
   ### If you have any questions, you may contact me at either
   ### Github: https://github.com/dhurteau26
